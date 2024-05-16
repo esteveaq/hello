@@ -1,0 +1,37 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Hello 👋"
+  search: false
+  navbar:
+    background: "#243B9D"
+    left:
+      - href: index.qmd
+    right: 
+      - icon: linkedin
+        href: https://www.linkedin.com/in/esteveaqachmar/
+      - icon: twitter-x
+        href: https://twitter.com/esteveaqa
+      - icon: github
+        href: https://github.com/esteveaq  
+  page-footer:
+    center: 
+      - icon: linkedin
+        href: https://www.linkedin.com/in/esteveaqachmar/
+      - icon: twitter-x
+        href: https://twitter.com/esteveaqa
+      - icon: github
+        href: https://github.com/esteveaq 
+      - text: "2024"
+    background: "#243B9D"
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: false
+
+
+
