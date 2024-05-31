@@ -9,8 +9,8 @@ website:
     background: "#243B9D"
     left:
       - href: index.qmd
-      - href: blog.qmd
     right: 
+      - href: blog.qmd
       - icon: linkedin
         href: https://www.linkedin.com/in/esteveaqachmar/
       - icon: twitter-x
