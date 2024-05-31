@@ -1,7 +1,7 @@
 ---
 title: "Data vizualisation memo"
 image: plot.boxplot.color.png
-description: "Sample data analysis and personal reminder for data visualization"
+description: "Personal reminder for data visualization"
 format:
   html:
     embed-resources: true
@@ -567,7 +567,7 @@ plot.binned.stacked.dodge <-
 plot.binned.stacked.dodge
 ```
 
-## Bubble charts
+# Bubble charts
 
 ```{r}
 plot.bubble <-
