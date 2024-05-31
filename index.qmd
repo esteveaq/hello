@@ -20,35 +20,32 @@ I am business developer with product & project management experience and a focus
 
 ## Experience
 
-**Business Operations — M&A Risk** \
-Ministry of Finance and Economy (FR) | Nov 2021 - present
+**Business Operations — M&A Risk**\
+Ministry of Finance and Economy (FR) \| 2021 - present
 
-**Product Strategy — PMO** \
-Thales Group | Jan 2018 - Nov 2021
+**Product Strategy — PMO**\
+Thales Group \| 2018 - 2021
 
-**Market Intelligence** \
-Space Agency of France in Japan (CNES) | Mar 2015 - Mar 2017
+**Market Intelligence**\
+Space Agency of France in Japan (CNES) \| 2015 - 2017
 
-**Competitive Intelligence** \
-Airbus Defence and Space
-
-**Audit** \
-National Audit Office
+**Competitive Intelligence**\
+Airbus Defence and Space \| 2013 - 2014
 
 ## Education
 
-Institute of Political Science of Aix \| Aix-en-Provence, France\
+**Institute of Political Science of Aix \| Aix-en-Provence, France**\
 MA International Business Affairs\
 MA Law, Economy, Management\
 
 ## Skills
 
 Leadership \| strategic project management \| product management \| Data governance \| data strategy \| process improvement \| Engagement and communication \| cross-functional work with tech and non-tech teams \| Agile \| Design Thinking
- 
+
 ## Tools
 
 |                  |                                                                                             |
-|----------------|--------------------------------------------------------|
+|------------------|------------------------------------------------------|
 | **Advanced**     | Excel, PowerQuery, PowerBI                                                                  |
 | **Intermediate** | R & Rstudio, Tidyverse (dplyr, ggplot), ETL process, Airtable, Google Sheets, Oracle Siebel |
 | **Beginner**     | Linux, SQL, BigQuery, Git & Github, Tableau Public, Python, APIs                            |
