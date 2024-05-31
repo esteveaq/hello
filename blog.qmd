@@ -1,5 +1,7 @@
 ---
 title: "Blog"
 editor: source
-listing: default
+listing: 
+  contents: "posts/*/*.qmd"
+  type: grid
 ---
