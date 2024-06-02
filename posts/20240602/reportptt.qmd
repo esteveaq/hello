@@ -119,7 +119,7 @@ plots_df <- tibble::tibble(
   plots = plots)
 ```
 
-# Generate slides
+# Create slides
 
 ``` r
 #| output: asis
