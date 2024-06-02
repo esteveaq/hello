@@ -55,7 +55,7 @@ theme_set(theme_minimal())
 source("Data/data_deals.R", echo = FALSE)
 ```
 
-# Define Parameter and Function
+# Parameter and Function
 
 The function contains ggplots.
 
@@ -106,7 +106,7 @@ b <-
 }
 ```
 
-# Map the function and store output
+# Map function and store output
 
 Plots are created for each category and stored in a data frame. [Reference : Purrr package](https://purrr.tidyverse.org/index.html)
 
