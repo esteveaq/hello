@@ -3,7 +3,7 @@ title: "Automated report"
 date: 2024-06-02
 categories: [memo, R]
 image: logo.png
-description: "Generating PowerPoint slides using R (personal memo)"
+description: "Generating PowerPoint slides using R"
 format:
   html:
     embed-resources: true
@@ -18,9 +18,8 @@ editor_options:
 ::: callout-note
 ## About
 
-Sometimes I might need to present reports in a PowerPoint format.\
-This memo shows how to use R & the tidyverse to generate simple automated PPT slides from a dataset.\
-It was a fun way to experiment with functions.
+Sometimes I need to present reports in a PowerPoint format.\
+This memo shows how to use R to generate simple PPT slides from a dataset.\
 :::
 
 # Introduction

@@ -1,5 +1,5 @@
 ---
-title: "Data vizualisation memo"
+title: "Data vizualisation"
 date: 2024-05-31
 categories: [memo, R]
 image: plot.boxplot.color.png
@@ -83,7 +83,7 @@ evolution <-
 theme_set(theme_minimal())
 ```
 
-# Describing deal count
+# Deal count
 
 ```{r}
 plot.bar.vertical.count <-

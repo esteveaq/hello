@@ -18,7 +18,9 @@ website:
       - icon: github
         href: https://github.com/esteveaq  
   page-footer:
-    center: 
+    center:
+      - text: "Home"
+        href: https://esteveaq.github.io/hello/
       - icon: linkedin
         href: https://www.linkedin.com/in/esteveaqachmar/
       - icon: twitter-x

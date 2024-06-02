@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="dcterms.date" content="2024-06-02">
-<meta name="description" content="Generating PowerPoint slides using R (personal memo)">
+<meta name="description" content="Generating PowerPoint slides using R">
 
 <title>Hello 👋 - Automated report</title>
 <style>
@@ -3443,8 +3443,8 @@ vertical-align: -.125em;
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#learnings" id="toc-learnings" class="nav-link" data-scroll-target="#learnings">Learnings</a></li>
   <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
-  <li><a href="#define-parameter-and-function" id="toc-define-parameter-and-function" class="nav-link" data-scroll-target="#define-parameter-and-function">Define Parameter and Function</a></li>
-  <li><a href="#map-the-function-and-store-output" id="toc-map-the-function-and-store-output" class="nav-link" data-scroll-target="#map-the-function-and-store-output">Map the function and store output</a></li>
+  <li><a href="#parameter-and-function" id="toc-parameter-and-function" class="nav-link" data-scroll-target="#parameter-and-function">Parameter and Function</a></li>
+  <li><a href="#map-function-and-store-output" id="toc-map-function-and-store-output" class="nav-link" data-scroll-target="#map-function-and-store-output">Map function and store output</a></li>
   <li><a href="#generate-slides" id="toc-generate-slides" class="nav-link" data-scroll-target="#generate-slides">Generate slides</a></li>
   </ul>
 </nav>
@@ -3463,7 +3463,7 @@ vertical-align: -.125em;
 
 <div>
   <div class="description">
-    Generating PowerPoint slides using R (personal memo)
+    Generating PowerPoint slides using R
   </div>
 </div>
 
@@ -3496,9 +3496,9 @@ About
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Sometimes I might need to present reports in a PowerPoint format.<br>
-This memo shows how to use R &amp; the tidyverse to generate simple automated PPT slides from a dataset.<br>
-It was a fun way to experiment with functions.</p>
+<p>Sometimes I need to present reports in a PowerPoint format.<br>
+This memo shows how to use R to generate simple PPT slides from a dataset.<br>
+</p>
 </div>
 </div>
 <section id="introduction" class="level1">
@@ -3531,8 +3531,8 @@ Inspired by a <a href="https://github.com/quarto-dev/quarto-cli/discussions/2403
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Get data </span></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;Data/data_deals.R&quot;</span>, <span class="at">echo =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="define-parameter-and-function" class="level1">
-<h1>Define Parameter and Function</h1>
+<section id="parameter-and-function" class="level1">
+<h1>Parameter and Function</h1>
 <p>The function contains ggplots.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define parameter (categories) to ensure proper slide order on the PPT file</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>sector.select <span class="ot">&lt;-</span> custom_levels</span>
@@ -3579,8 +3579,8 @@ Inspired by a <a href="https://github.com/quarto-dev/quarto-cli/discussions/2403
 <span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>(a <span class="sc">+</span> b)</span>
 <span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="map-the-function-and-store-output" class="level1">
-<h1>Map the function and store output</h1>
+<section id="map-function-and-store-output" class="level1">
+<h1>Map function and store output</h1>
 <p>Plots are created for each category and stored in a data frame. <a href="https://purrr.tidyverse.org/index.html">Reference : Purrr package</a></p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the function that will map &#39;sector.select&#39; to the function &#39;make_plots&#39;</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>plots <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map</span>(sector.select, make_plots)</span>
@@ -4041,6 +4041,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>   
     <div class="nav-footer-center">
       <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://esteveaq.github.io/hello/">
+<p>Home</p>
+</a>
+  </li>  
     <li class="nav-item compact">
     <a class="nav-link" href="https://www.linkedin.com/in/esteveaqachmar/">
       <i class="bi bi-linkedin" role="img">
