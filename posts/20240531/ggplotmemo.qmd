@@ -1,5 +1,7 @@
 ---
 title: "Data vizualisation memo"
+date: 2024-05-31
+categories: [memo, R]
 image: plot.boxplot.color.png
 description: "Personal reminder for data visualization"
 format:
@@ -14,7 +16,7 @@ editor_options:
 ---
 
 ::: callout-note
-## About this memo
+## About
 
 This page is a collection of plots describing a fake portfolio of M&A deals. I use this page as a personal reminder. First I generate a dataset with a few attributes : sectors, regions, deal size. Then I do basic exploratory data analysis. You can unwrap code chunks if needed.
 :::

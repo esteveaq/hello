@@ -39,14 +39,14 @@
     "href": "blog.html",
     "title": "Blog",
     "section": "",
-    "text": "Data vizualisation memo\n\n\nSample data analysis and personal reminder for data visualization\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "Automated report\n\n\nGenerating PowerPoint slides using R (personal memo)\n\n\n\n\n\n\nJun 2, 2024\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nData vizualisation memo\n\n\nPersonal reminder for data visualization\n\n\n\n\n\n\nMay 31, 2024\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/20240531/ggplotmemo.html",
     "href": "posts/20240531/ggplotmemo.html",
     "title": "Data vizualisation memo",
     "section": "",
-    "text": "About this memo\n\n\n\nThis page is a collection of plots describing a fake portfolio of M&A deals. I use this page as a personal reminder. First I generate a dataset with a few attributes : sectors, regions, deal size. Then I do basic exploratory data analysis. You can unwrap code chunks if needed."
+    "text": "About\n\n\n\nThis page is a collection of plots describing a fake portfolio of M&A deals. I use this page as a personal reminder. First I generate a dataset with a few attributes : sectors, regions, deal size. Then I do basic exploratory data analysis. You can unwrap code chunks if needed."
   },
   {
     "objectID": "posts/20240531/ggplotmemo.html#load-libraries",
@@ -194,5 +194,12 @@
     "title": "Data vizualisation memo",
     "section": "With facets + gghighlight",
     "text": "With facets + gghighlight\n\n\nCode\n# No need for gghighlight here\nplot.line + \n  facet_wrap(~sectors)\n\n\n\n\n\n\n\n\n\n\n\nCode\n# Highlighting segments with gghighlight\nplot.line +\n  gghighlight(label_params = list(size = 3)) + #adjust size of labels\n  facet_wrap(~sectors) + \ntheme(\n  strip.text.x = element_blank() #remove titles from facets\n)\n\n\n\n\n\n\n\n\n\n\n\nCode\n# With multiple gghighlights\nplot.line +\ngghighlight(sectors %in% c(\"space\", \"radio\"), \n            label_params = list(nudge_x = 2))\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSome thoughts\n\n\n\n\nFor fun we could try library(geomtextpath)\nFor better reliability we could add labels without using additional packages:  https://stackoverflow.com/questions/29357612/plot-labels-at-ends-of-lines (answered Jul 2, 2018 at 15:57)"
+  },
+  {
+    "objectID": "posts/20240602/reportptt.html",
+    "href": "posts/20240602/reportptt.html",
+    "title": "Automated report",
+    "section": "",
+    "text": "About\n\n\n\nSometimes I might need to present reports in a PowerPoint format.\nThis memo shows how to use R & the tidyverse to generate simple automated PPT slides from a dataset.\nIt was a fun way to experiment with functions.\n\n\n\nIntroduction\nThis is a sample analysis of deals per market segment (sectors) over time.\nRendering is done with Quarto and Knitr.\nInspired by a question on the quarto-cli repository.\n\n\nDownload PPT or see github.com/esteveaq/reportppt\n\n\nLearnings\n\nfunctions & parameters\npurrr::map and pmap()\nstoring plots in a data frame (tibble)\n\n\n\n\n\nSetup\n# Load necessary libraries\nlibrary(tidyverse)\nlibrary(patchwork)\n# Set theme\ntheme_set(theme_minimal())\n\n# Get data \nsource(\"Data/data_deals.R\", echo = FALSE)\n\n\nDefine Parameter and Function\nThe function contains ggplots.\n# Define parameter (categories) to ensure proper slide order on the PPT file\nsector.select &lt;- custom_levels\n\n# Define function to create plots with a sector.select variable\nmake_plots &lt;- function(sector.select) {\n\n# define highlight filter for plot a\ndata.filt.a &lt;- data.plot.a %&gt;% \nfilter(sectors == sector.select)\ncolor.hex &lt;- \"#AA2841\"\n\n# Plot a\na &lt;-  \n  data.plot.a %&gt;% \n  ggplot(mapping = aes(x = fct_reorder(sectors, prop), y = prop)) +\n  geom_col(fill = \"gray70\") +\n  #highlight filter\n  geom_col(data = data.filt.a, fill = color.hex) + \n  coord_flip() +\n  geom_text(aes(label = paste0(prop*100, \"%\")), \n            vjust = .5,\n            hjust = 1.2,\n            size = 4,\n            color = \"white\") + #add labels\n  scale_y_continuous(labels = scales::percent) + # axis label in %\n  labs(x = \"Sectors\",\n       title = paste(\"Proportion of deals for the\",sector.select, \"sector\"), \n       subtitle = \"By number of deals\") #relabel \n\n# define highlight filter for plot b\ndata.filt.b &lt;- data.plot.b %&gt;% filter(sectors == sector.select)\n\n# Plot b\nb &lt;-\n  ggplot(data = data.plot.b, aes(x = year, y = n)) +\n  geom_col(fill = \"gray70\") + \n  #highlight filter\n  geom_col(data = data.filt.b, fill = color.hex) +\n  geom_text(data =  data.filt.b, mapping = aes(label = n), \n            vjust = -0.8, color = color.hex) \n\n# Assemble plots together using the 'library(patchwork)' syntax\n(a + b)\n}\n\n\nMap the function and store output\nPlots are created for each category and stored in a data frame. Reference : Purrr package\n# Define the function that will map 'sector.select' to the function 'make_plots'\nplots &lt;- purrr::map(sector.select, make_plots)\n\n# Store generated plots in a tibble \nplots_df &lt;- tibble::tibble(\n  sector.select = sector.select,\n  plots = plots)\n\n\nGenerate slides\n#| output: asis\n# Iterate over each row of the 'plots_df' data frame and generate slides using knitr (the markdown function that will generate actual PPT slides)\nresults_slides &lt;- purrr::pmap_chr(plots_df, function(sector.select, plots) {\n  knitr::knit_child(text = c(\n    \"# Sector `r sector.select`\",\n    \"```{r}\",\n    \"#| echo: false\",\n    \"plots\",\n    \"```\",\n    \"\"), envir = environment(), quiet = TRUE)\n})\n\n# Print results, and indent with '\\n' so Quarto recognizes different slides\ncat(results_slides, sep = '\\n')\n\n\n\n\n\n\nTip\n\n\n\nCan also can be achieved with a parameterized quarto report."
   }
 ]

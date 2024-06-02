@@ -1,0 +1,144 @@
+---
+title: "Automated report"
+date: 2024-06-02
+categories: [memo, R]
+image: logo.png
+description: "Generating PowerPoint slides using R (personal memo)"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    code-fold: true
+    code-block-bg: true
+    code-block-border-left: "#31BAE9"
+editor_options: 
+  chunk_output_type: inline
+---
+
+::: callout-note
+## About
+
+Sometimes I might need to present reports in a PowerPoint format.\
+This memo shows how to use R & the tidyverse to generate simple automated PPT slides from a dataset.\
+It was a fun way to experiment with functions.
+:::
+
+# Introduction
+
+This is a sample analysis of deals per market segment (sectors) over time.\
+Rendering is done with [Quarto](https://quarto.org/docs/presentations/powerpoint.html) and Knitr.\
+Inspired by a [question](https://github.com/quarto-dev/quarto-cli/discussions/2403) on the quarto-cli repository.\
+
+![](logo.png)
+
+[Download PPT](https://github.com/esteveaq/reportppt/raw/main/docs/Report.pptx) or see [github.com/esteveaq/reportppt](https://github.com/esteveaq/reportppt)
+
+# Learnings
+
+-   functions & parameters
+-   `purrr::map` and `pmap()`
+-   storing plots in a data frame (tibble)
+\
+
+-----------------------------------------------
+
+# Setup
+
+``` r
+# Load necessary libraries
+library(tidyverse)
+library(patchwork)
+# Set theme
+theme_set(theme_minimal())
+
+# Get data 
+source("Data/data_deals.R", echo = FALSE)
+```
+
+# Define Parameter and Function
+
+The function contains ggplots.
+
+``` r
+# Define parameter (categories) to ensure proper slide order on the PPT file
+sector.select <- custom_levels
+
+# Define function to create plots with a sector.select variable
+make_plots <- function(sector.select) {
+
+# define highlight filter for plot a
+data.filt.a <- data.plot.a %>% 
+filter(sectors == sector.select)
+color.hex <- "#AA2841"
+
+# Plot a
+a <-  
+  data.plot.a %>% 
+  ggplot(mapping = aes(x = fct_reorder(sectors, prop), y = prop)) +
+  geom_col(fill = "gray70") +
+  #highlight filter
+  geom_col(data = data.filt.a, fill = color.hex) + 
+  coord_flip() +
+  geom_text(aes(label = paste0(prop*100, "%")), 
+            vjust = .5,
+            hjust = 1.2,
+            size = 4,
+            color = "white") + #add labels
+  scale_y_continuous(labels = scales::percent) + # axis label in %
+  labs(x = "Sectors",
+       title = paste("Proportion of deals for the",sector.select, "sector"), 
+       subtitle = "By number of deals") #relabel 
+
+# define highlight filter for plot b
+data.filt.b <- data.plot.b %>% filter(sectors == sector.select)
+
+# Plot b
+b <-
+  ggplot(data = data.plot.b, aes(x = year, y = n)) +
+  geom_col(fill = "gray70") + 
+  #highlight filter
+  geom_col(data = data.filt.b, fill = color.hex) +
+  geom_text(data =  data.filt.b, mapping = aes(label = n), 
+            vjust = -0.8, color = color.hex) 
+
+# Assemble plots together using the 'library(patchwork)' syntax
+(a + b)
+}
+```
+
+# Map the function and store output
+
+Plots are created for each category and stored in a data frame. [Reference : Purrr package](https://purrr.tidyverse.org/index.html)
+
+``` r
+# Define the function that will map 'sector.select' to the function 'make_plots'
+plots <- purrr::map(sector.select, make_plots)
+
+# Store generated plots in a tibble 
+plots_df <- tibble::tibble(
+  sector.select = sector.select,
+  plots = plots)
+```
+
+# Generate slides
+
+``` r
+#| output: asis
+# Iterate over each row of the 'plots_df' data frame and generate slides using knitr (the markdown function that will generate actual PPT slides)
+results_slides <- purrr::pmap_chr(plots_df, function(sector.select, plots) {
+  knitr::knit_child(text = c(
+    "# Sector `r sector.select`",
+    "```{r}",
+    "#| echo: false",
+    "plots",
+    "```",
+    ""), envir = environment(), quiet = TRUE)
+})
+
+# Print results, and indent with '\n' so Quarto recognizes different slides
+cat(results_slides, sep = '\n')
+```
+
+::: callout-tip
+Can also can be achieved with a [parameterized quarto report.](https://bookdown.org/yihui/rmarkdown/parameterized-reports.html)
+:::
