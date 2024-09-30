@@ -3,12 +3,12 @@ project:
   output-dir: docs
 
 website:
-  title: "Hello 👋"
+  title: "Esteve Aqachmar"
   search: false
   google-analytics: "G-6757JXF874"
-  cookie-consent:
-    type: express
-    style: simple
+  # cookie-consent: # U.S visitors only
+  #   type: express
+  #   style: simple
   navbar:
     background: "#243B9D"
     left:

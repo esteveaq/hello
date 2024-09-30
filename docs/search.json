@@ -4,35 +4,35 @@
     "href": "index.html",
     "title": "Esteve Aqachmar",
     "section": "",
-    "text": "I am business developer with product & project management experience and a focus on analytics. My passion is to unite people and technology to build impactful insights. Also data visualization and R enthusiast 📊"
+    "text": "Business development professional experienced in risk management & business transformation with a focus on analytics. My passion is to unite people and technology to build impactful insights 📊"
   },
   {
     "objectID": "index.html#experience",
     "href": "index.html#experience",
     "title": "Esteve Aqachmar",
     "section": "Experience",
-    "text": "Experience\nBusiness Operations — M&A Risk\nMinistry of Finance and Economy (FR) | 2021 - present\nProduct Strategy — PMO\nThales Group | 2018 - 2021\nMarket Intelligence\nSpace Agency of France in Japan (CNES) | 2015 - 2017\nCompetitive Intelligence\nAirbus Defence and Space | 2013 - 2014"
+    "text": "Experience\nBusiness Operations — M&A Risk\nMinistry of Finance and Economy | 2021 - 2023\nProduct Strategy — PMO\nThales Group (Fortune Global 500) | 2018 - 2021\nMarket Intelligence\nNational Center for Space Studies in Japan | 2015 - 2017\nCompetitive Intelligence\nAirbus Defence and Space | 2013 - 2014"
   },
   {
     "objectID": "index.html#education",
     "href": "index.html#education",
     "title": "Esteve Aqachmar",
     "section": "Education",
-    "text": "Education\nInstitute of Political Science of Aix | Aix-en-Provence, France\nMA International Business Affairs\nMA Law, Economy, Management"
+    "text": "Education\nPolitical Science Institute of Aix | France\nMA International Business Affairs\nMA Law, Economy, Management"
   },
   {
     "objectID": "index.html#skills",
     "href": "index.html#skills",
     "title": "Esteve Aqachmar",
     "section": "Skills",
-    "text": "Skills\nLeadership | strategic project management | product management | Data governance | data strategy | process improvement | Engagement and communication | cross-functional work with tech and non-tech teams | Agile | Design Thinking"
+    "text": "Skills\nBusiness Transformation | Product Strategy | Data governance | Data Analytics | Design Thinking | Agile"
   },
   {
     "objectID": "index.html#tools",
     "href": "index.html#tools",
     "title": "Esteve Aqachmar",
     "section": "Tools",
-    "text": "Tools\n\n\n\n\n\n\n\nAdvanced\nExcel, PowerQuery, PowerBI\n\n\nIntermediate\nR & Rstudio, Tidyverse (dplyr, ggplot), ETL process, Airtable, Google Sheets, Oracle Siebel\n\n\nBeginner\nLinux, SQL, BigQuery, Git & Github, Tableau Public, Python, APIs"
+    "text": "Tools\n\n\n\n\n\n\n\nAdvanced\nExcel, PowerQuery, PowerBI\n\n\nIntermediate\nR & Rstudio, Tidyverse, Google Sheets\n\n\nBeginner\nSQL, BigQuery, Linux, Git & Github, Tableau Public, Python, APIs"
   },
   {
     "objectID": "blog.html",
@@ -200,6 +200,6 @@
     "href": "posts/20240602/reportptt.html",
     "title": "Automated report",
     "section": "",
-    "text": "About\n\n\n\nSometimes I need to present reports in a PowerPoint format.\nThis memo shows how to use R to generate simple PPT slides from a dataset.\n\n\n\n\nIntroduction\nThis is a sample analysis of deals per market segment (sectors) over time.\nRendering is done with Quarto and Knitr.\nInspired by a question on the quarto-cli repository.\n\n\nDownload PPT or see github.com/esteveaq/reportppt\n\n\nLearnings\n\nfunctions & parameters\npurrr::map and pmap()\nstoring plots in a data frame (tibble)\n\n\n\n\n\nSetup\n# Load necessary libraries\nlibrary(tidyverse)\nlibrary(patchwork)\n# Set theme\ntheme_set(theme_minimal())\n\n# Get data \nsource(\"Data/data_deals.R\", echo = FALSE)\n\n\nParameter and Function\nThe function contains ggplots.\n# Define parameter (categories) to ensure proper slide order on the PPT file\nsector.select &lt;- custom_levels\n\n# Define function to create plots with a sector.select variable\nmake_plots &lt;- function(sector.select) {\n\n# define highlight filter for plot a\ndata.filt.a &lt;- data.plot.a %&gt;% \nfilter(sectors == sector.select)\ncolor.hex &lt;- \"#AA2841\"\n\n# Plot a\na &lt;-  \n  data.plot.a %&gt;% \n  ggplot(mapping = aes(x = fct_reorder(sectors, prop), y = prop)) +\n  geom_col(fill = \"gray70\") +\n  #highlight filter\n  geom_col(data = data.filt.a, fill = color.hex) + \n  coord_flip() +\n  geom_text(aes(label = paste0(prop*100, \"%\")), \n            vjust = .5,\n            hjust = 1.2,\n            size = 4,\n            color = \"white\") + #add labels\n  scale_y_continuous(labels = scales::percent) + # axis label in %\n  labs(x = \"Sectors\",\n       title = paste(\"Proportion of deals for the\",sector.select, \"sector\"), \n       subtitle = \"By number of deals\") #relabel \n\n# define highlight filter for plot b\ndata.filt.b &lt;- data.plot.b %&gt;% filter(sectors == sector.select)\n\n# Plot b\nb &lt;-\n  ggplot(data = data.plot.b, aes(x = year, y = n)) +\n  geom_col(fill = \"gray70\") + \n  #highlight filter\n  geom_col(data = data.filt.b, fill = color.hex) +\n  geom_text(data =  data.filt.b, mapping = aes(label = n), \n            vjust = -0.8, color = color.hex) \n\n# Assemble plots together using the 'library(patchwork)' syntax\n(a + b)\n}\n\n\nMap function and store output\nPlots are created for each category and stored in a data frame. Reference : Purrr package\n# Define the function that will map 'sector.select' to the function 'make_plots'\nplots &lt;- purrr::map(sector.select, make_plots)\n\n# Store generated plots in a tibble \nplots_df &lt;- tibble::tibble(\n  sector.select = sector.select,\n  plots = plots)\n\n\nGenerate slides\n#| output: asis\n# Iterate over each row of the 'plots_df' data frame and generate slides using knitr (the markdown function that will generate actual PPT slides)\nresults_slides &lt;- purrr::pmap_chr(plots_df, function(sector.select, plots) {\n  knitr::knit_child(text = c(\n    \"# Sector `r sector.select`\",\n    \"```{r}\",\n    \"#| echo: false\",\n    \"plots\",\n    \"```\",\n    \"\"), envir = environment(), quiet = TRUE)\n})\n\n# Print results, and indent with '\\n' so Quarto recognizes different slides\ncat(results_slides, sep = '\\n')\n\n\n\n\n\n\nTip\n\n\n\nCan also can be achieved with a parameterized quarto report."
+    "text": "About\n\n\n\nSometimes I need to present reports in a PowerPoint format.\nThis memo shows how to use R to generate simple PPT slides from a dataset.\n\n\n\n\nIntroduction\nThis is a sample analysis of deals per market segment (sectors) over time.\nRendering is done with Quarto and Knitr.\nInspired by a question on the quarto-cli repository.\n\n\nDownload PPT or see github.com/esteveaq/reportppt\n\n\nLearnings\n\nfunctions & parameters\npurrr::map and pmap()\nstoring plots in a data frame (tibble)\n\n\n\n\n\nSetup\n# Load necessary libraries\nlibrary(tidyverse)\nlibrary(patchwork)\n# Set theme\ntheme_set(theme_minimal())\n\n# Get data \nsource(\"Data/data_deals.R\", echo = FALSE)\n\n\nParameter and Function\nThe function contains ggplots.\n# Define parameter (categories) to ensure proper slide order on the PPT file\nsector.select &lt;- custom_levels\n\n# Define function to create plots with a sector.select variable\nmake_plots &lt;- function(sector.select) {\n\n# define highlight filter for plot a\ndata.filt.a &lt;- data.plot.a %&gt;% \nfilter(sectors == sector.select)\ncolor.hex &lt;- \"#AA2841\"\n\n# Plot a\na &lt;-  \n  data.plot.a %&gt;% \n  ggplot(mapping = aes(x = fct_reorder(sectors, prop), y = prop)) +\n  geom_col(fill = \"gray70\") +\n  #highlight filter\n  geom_col(data = data.filt.a, fill = color.hex) + \n  coord_flip() +\n  geom_text(aes(label = paste0(prop*100, \"%\")), \n            vjust = .5,\n            hjust = 1.2,\n            size = 4,\n            color = \"white\") + #add labels\n  scale_y_continuous(labels = scales::percent) + # axis label in %\n  labs(x = \"Sectors\",\n       title = paste(\"Proportion of deals for the\",sector.select, \"sector\"), \n       subtitle = \"By number of deals\") #relabel \n\n# define highlight filter for plot b\ndata.filt.b &lt;- data.plot.b %&gt;% filter(sectors == sector.select)\n\n# Plot b\nb &lt;-\n  ggplot(data = data.plot.b, aes(x = year, y = n)) +\n  geom_col(fill = \"gray70\") + \n  #highlight filter\n  geom_col(data = data.filt.b, fill = color.hex) +\n  geom_text(data =  data.filt.b, mapping = aes(label = n), \n            vjust = -0.8, color = color.hex) \n\n# Assemble plots together using the 'library(patchwork)' syntax\n(a + b)\n}\n\n\nMap function and store output\nPlots are created for each category and stored in a data frame. Reference : Purrr package\n# Define the function that will map 'sector.select' to the function 'make_plots'\nplots &lt;- purrr::map(sector.select, make_plots)\n\n# Store generated plots in a tibble \nplots_df &lt;- tibble::tibble(\n  sector.select = sector.select,\n  plots = plots)\n\n\nCreate slides\n#| output: asis\n# Iterate over each row of the 'plots_df' data frame and generate slides using knitr (the markdown function that will generate actual PPT slides)\nresults_slides &lt;- purrr::pmap_chr(plots_df, function(sector.select, plots) {\n  knitr::knit_child(text = c(\n    \"# Sector `r sector.select`\",\n    \"```{r}\",\n    \"#| echo: false\",\n    \"plots\",\n    \"```\",\n    \"\"), envir = environment(), quiet = TRUE)\n})\n\n# Print results, and indent with '\\n' so Quarto recognizes different slides\ncat(results_slides, sep = '\\n')\n\n\n\n\n\n\nTip\n\n\n\nCan also can be achieved with a parameterized quarto report."
   }
 ]
