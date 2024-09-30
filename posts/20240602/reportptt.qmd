@@ -17,27 +17,26 @@ editor_options:
 
 ::: callout-note
 ## About
-
-Sometimes I need to present reports in a PowerPoint format.\
-This memo shows how to use R to generate simple PPT slides from a dataset.\
+This memo shows how to use R to generate PPT slides from a dataset.\
 :::
+
+# Learnings
+
+-   applying functions & parameters
+-   using `purrr::map` and `pmap()`
+-   storing plots in a data frame
+\
+
+
+# Results
+![](demo.gif)
+[Download PPT](https://github.com/esteveaq/reportppt/raw/main/docs/Report.pptx) or see [github.com/esteveaq/reportppt](https://github.com/esteveaq/reportppt)
 
 # Introduction
 
 This is a sample analysis of deals per market segment (sectors) over time.\
 Rendering is done with [Quarto](https://quarto.org/docs/presentations/powerpoint.html) and Knitr.\
 Inspired by a [question](https://github.com/quarto-dev/quarto-cli/discussions/2403) on the quarto-cli repository.\
-
-![](logo.png)
-
-[Download PPT](https://github.com/esteveaq/reportppt/raw/main/docs/Report.pptx) or see [github.com/esteveaq/reportppt](https://github.com/esteveaq/reportppt)
-
-# Learnings
-
--   functions & parameters
--   `purrr::map` and `pmap()`
--   storing plots in a data frame (tibble)
-\
 
 -----------------------------------------------
 
@@ -137,6 +136,8 @@ results_slides <- purrr::pmap_chr(plots_df, function(sector.select, plots) {
 # Print results, and indent with '\n' so Quarto recognizes different slides
 cat(results_slides, sep = '\n')
 ```
+
+![](logo.png)
 
 ::: callout-tip
 Can also can be achieved with a [parameterized quarto report.](https://bookdown.org/yihui/rmarkdown/parameterized-reports.html)
