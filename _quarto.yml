@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "Esteve Aqachmar"
+#  title: "Esteve Aqachmar"
   search: false
   google-analytics: "G-6757JXF874"
   # cookie-consent: # U.S visitors only
